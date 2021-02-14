@@ -2,12 +2,12 @@ const Movies=require('./moviesModal')
 const axios=require('axios');
 exports.getAll=function(){
     return new Promise(function(resolve, reject) {
-        Movies.find({}, function(err, member){
+        Movies.find({}, function(err, obj){
             if(err){
                 reject(err);
             }
             else{
-                resolve(member);
+                resolve(obj);
             }
         })
     })
@@ -15,12 +15,12 @@ exports.getAll=function(){
 
 exports.getMovie=function(id){
     return new Promise(function(resolve, reject) {
-        Movies.findById(id, function(err, member){
+        Movies.findById(id, function(err, obj){
             if(err) {
                 reject(err);
             }
             else{
-                resolve(member);
+                resolve(obj);
             }
         })
     })
@@ -60,7 +60,7 @@ exports.updateMovie=function(id,obj){
                 genres :obj.genres,
                 image :obj.image, 
                 premiered: obj.premiered
-            },function(err, member){
+            },function(err, movie){
                 if(err){
                     reject(err);
                 }
@@ -74,7 +74,7 @@ exports.updateMovie=function(id,obj){
 
 exports.deleteMovie=function(id){
     return new Promise(function(resolve, reject) {
-        Movies.findByIdAndRemove(id, function(err, member){
+        Movies.findByIdAndRemove(id, function(err, movie){
             if(err) {
                 reject(err);
             }
