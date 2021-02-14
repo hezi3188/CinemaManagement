@@ -93,9 +93,8 @@ initData= async function(){
         members=membersArr.map(x=>{
             return {name:x.name,email:x.email,city:x.address.city}
         })
-        console.log(members)
         members.forEach(element => {
-           let resp = exports.addMember(element);
+          exports.addMember(element);
            
        });
     }

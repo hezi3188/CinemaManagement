@@ -30,10 +30,10 @@ exports.addMovie=function(obj)
 {
     const newMember=new Movies(
         {
-        name : obj.name,
-        genres :obj.genres,
-        image :obj.image, 
-        Premiered: obj.Premiered
+            name : obj.name,
+            genres :obj.genres,
+            image :obj.image, 
+            premiered: obj.premiered
     });
 
     newMember.save(function(err)
@@ -59,7 +59,7 @@ exports.updateMovie=function(id,obj){
                 name : obj.name,
                 genres :obj.genres,
                 image :obj.image, 
-                Premiered: obj.Premiered
+                premiered: obj.premiered
             },function(err, member){
                 if(err){
                     reject(err);
@@ -84,4 +84,27 @@ exports.deleteMovie=function(id){
         })
     })
 }
+
+
+
+//pull the data from axios if no data in
+initData= async function(){ 
+    let count = await Movies.count();
+
+    if(count==0){
+        let movies=await axios.get("https://api.tvmaze.com/shows");
+        let moviesArr=movies.data;
+
+        movies=moviesArr.map(x=>{
+            return {name:x.name,genres:x.genres,image:x.image.original,premiered:x.premiered}
+        });
+        console.log(movies);
+        movies.forEach(element => {
+            exports.addMovie(element);
+           
+       });
+    }
+}
+
+initData().then();
 

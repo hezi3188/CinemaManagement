@@ -6,6 +6,6 @@ let MoviesSchema = new schema({
     name : String,
     genres :Array,
     image :String, 
-    Premiered: Date
+    premiered: Date
 });
 module.exports=mongoose.model('movies',MoviesSchema);
