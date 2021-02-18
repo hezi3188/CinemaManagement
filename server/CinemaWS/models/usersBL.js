@@ -58,6 +58,7 @@ const getUserData=async (id) => {
 }
 
 
+
 exports.getAll=async function(){
     const usersData = await getAllUsersData();
     console.log(usersData);
@@ -272,3 +273,54 @@ exports.deleteUser=async function(id){
   return "deleted";
 }
 
+
+exports.register=async function(userName,password){
+    let users=await getAllUsersName();
+    console.log("username: " + userName);
+    let user=users.filter(data=>data.userName==userName);
+
+        console.log(user);
+
+    if(user.length==0){
+        return "The username is not correct!";
+    }
+
+    user=user[0];
+    if(user.password){
+        return "You have already an account, please login!";
+    }
+    let id=user.id;
+    User.findByIdAndUpdate(id,{
+        userName:userName,
+        password:password
+    },function(err,user){
+        if(err) return err;
+    });
+    return "You registered successfully.";
+}
+
+
+exports.login=async function(userName,password){
+    let users=await getAllUsersName();
+
+    let user=users.filter(data=>data.userName==userName&&data.password==password);
+    if(user.length==0){
+        return false;
+    }
+    return true;
+}
+
+
+exports.getUserId=async function(userName){
+    let users= await getAllUsersName();
+    let user=users.filter(data=>data.userName==userName);
+    if(user.length==0){
+        throw new Error("The user name is not exist!");
+    }
+    return user[0].id;
+}
+
+exports.getSeesionTimeOut=async function(id){
+    let usersData=await getUserData(id);
+    return usersData.sessionTimeOut;
+}
